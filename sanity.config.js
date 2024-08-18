@@ -28,4 +28,8 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
   ],
+  cors: {
+    allowOrigins: ["http://localhost:3000", "https://torso.vercel.app", "https://torso-*.vercel.app"],
+    allowCredentials: true,
+  },
 });
