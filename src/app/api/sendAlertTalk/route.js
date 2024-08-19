@@ -55,7 +55,7 @@ async function sendVariableTemplate(messageService, data) {
 
     const res = await messageService.send({
       // 테스트
-      //   to: "01074842242",
+      // to: "01074842242",
       to: recipients,
       from: process.env.ROOT_PHONE_MASTER,
       kakaoOptions: {

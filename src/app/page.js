@@ -187,6 +187,8 @@ const translations = {
   },
 };
 
+console.log("Page translations:", translations);
+
 const lightTheme = {
   backgroundColor: "#fff",
   textColor: "#333",
@@ -236,7 +238,7 @@ const darkTheme = {
 
 function ReservationProcess() {
   const [step, setStep] = useState("waiting");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { dispatch } = useReservation();
   const router = useRouter();
   const pathname = usePathname();
@@ -266,7 +268,7 @@ function ReservationProcess() {
   const handleReset = () => {
     dispatch({ type: "RESET" });
     setStep("waiting");
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
   };
 
   const handleStaffCall = async () => {
@@ -334,7 +336,7 @@ function ReservationProcess() {
       case "name":
         return <InputName onNext={() => setStep("shampoo")} onPrev={() => setStep("style")} locale={locale} />;
       case "shampoo":
-        return <ShampooSelect onNext={() => setStep("product")} onPrev={() => setStep("name")} locale={locale} />;
+        return <ShampooSelect onNext={() => setStep("product")} onPrev={() => setStep("name")} onReset={handleReset} locale={locale} theme={isDarkMode ? darkTheme : lightTheme} />;
       case "product":
         return <ProductSelect onNext={() => setStep("styling")} onPrev={() => setStep("shampoo")} locale={locale} />;
       case "styling":
@@ -345,7 +347,7 @@ function ReservationProcess() {
             onReset={handleReset}
             setStep={setStep}
             locale={locale}
-            setIsModalOpen={setIsModalOpen}
+            // setIsModalOpen={setIsModalOpen}
             theme={isDarkMode ? darkTheme : lightTheme}
           />
         );
@@ -362,9 +364,9 @@ function ReservationProcess() {
         <GlobalStyle />
         {step !== "waiting" && (
           <NavBar>
-            <NavItem $active={(step === "designer" || step === "time" || step === "style" || step === "name") && !isModalOpen}>{t.reservation}</NavItem>
-            <NavItem $active={(step === "shampoo" || step === "product" || step === "styling") && !isModalOpen}>{t.hairCheck}</NavItem>
-            <NavItem $active={step === "confirm" || isModalOpen}>{t.waitingEntry}</NavItem>
+            <NavItem $active={step === "designer" || step === "time" || step === "style" || step === "name"}>{t.reservation}</NavItem>
+            <NavItem $active={step === "shampoo" || step === "product" || step === "styling"}>{t.hairCheck}</NavItem>
+            <NavItem $active={step === "confirm"}>{t.waitingEntry}</NavItem>
           </NavBar>
         )}
         <Content>{renderStep()}</Content>

@@ -52,6 +52,7 @@ const translations = {
       열펌: "Heat Perm",
       컬러: "Color",
       스타일링: "Styling",
+      상담: "Counceling",
     },
   },
   ko: {
@@ -64,10 +65,11 @@ const translations = {
       열펌: "열펌",
       컬러: "컬러",
       스타일링: "스타일링",
+      상담: "상담",
     },
   },
 };
-const styles = ["컷", "다운펌", "펌", "열펌", "컬러", "스타일링"];
+const styles = ["컷", "다운펌", "펌", "열펌", "컬러", "스타일링", "상담"];
 
 export default function StyleSelect({ onNext, onPrev, locale = "ko" }) {
   const { dispatch } = useReservation();
