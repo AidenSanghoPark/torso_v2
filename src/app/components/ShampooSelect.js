@@ -124,7 +124,7 @@ export default function ShampooSelect({ onNext, onPrev, onReset, locale = "ko", 
     setSelectedOption(option);
     dispatch({ type: "SET_SHAMPOO", payload: option });
 
-    if (option === "모자착용") {
+    if (option === "모자착용" || option === "어제 밤") {
       dispatch({ type: "SET_PRODUCT", payload: " " });
       dispatch({ type: "SET_STYLING", payload: " " });
 
