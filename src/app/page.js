@@ -170,7 +170,7 @@ const translations = {
   en: {
     selfCheckIn: "Check-in",
     staffCall: "Call Staff",
-    welcome: "Welcome to Torso Foreman Hongdae Hapjeong Branch.",
+    welcome: "Welcome to Torso for MEN Hongdae Hapjeong Branch.",
     helpMessage: "Please call a staff member if you need assistance.",
     reservation: "Reservation",
     hairCheck: "Hair Check",
