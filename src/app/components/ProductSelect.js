@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useReservation } from "../../context/ReservationContext";
+import { sendAlertTalk } from "../../../utils/sendAlertTalk";
+import CompletionModal from "./CompletionModal";
 
 const Container = styled.div`
   display: flex;
@@ -78,15 +80,60 @@ const translations = {
 
 const productOptions = ["아니요", "에센스만", "기타"];
 
-export default function ProductSelect({ onNext, onPrev, locale = "ko" }) {
+export default function ProductSelect({ onNext, onPrev, onReset, locale = "ko", theme }) {
+  const [isModalOpenLocal, setIsModalOpenLocal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const { dispatch } = useReservation();
+  const { state, dispatch } = useReservation();
   const t = translations[locale] || translations.ko; // fallback to Korean if locale is not found
 
+  // const handleSelect = (option) => {
+  //   setSelectedOption(option);
+  //   dispatch({ type: "SET_PRODUCT", payload: option });
+  //   onNext();
+  // };
+
+  // 비동기방법
   const handleSelect = (option) => {
     setSelectedOption(option);
     dispatch({ type: "SET_PRODUCT", payload: option });
-    onNext();
+
+    if (option === "기타") {
+      dispatch({ type: "SET_STYLING", payload: " " });
+
+      // 먼저 모달 열기
+      setIsModalOpenLocal(true);
+
+      // 알림톡 비동기적으로 전송
+      sendAlertTalk({
+        ...state,
+        product: option,
+        styling: " ",
+      })
+        .then((result) => {
+          console.log("Alert talk sent:", result);
+        })
+        .catch((error) => {
+          console.error("Failed to send alert talk:", error);
+        });
+    } else {
+      onNext();
+    }
+  };
+
+  useEffect(() => {
+    let timer;
+    if (isModalOpenLocal) {
+      timer = setTimeout(() => {
+        setIsModalOpenLocal(false);
+        if (onReset) onReset();
+      }, 5000);
+    }
+    return () => clearTimeout(timer);
+  }, [isModalOpenLocal, onReset]);
+
+  const handleCloseModal = () => {
+    setIsModalOpenLocal(false);
+    if (onReset) onReset();
   };
 
   return (
@@ -100,6 +147,7 @@ export default function ProductSelect({ onNext, onPrev, locale = "ko" }) {
         ))}
       </OptionsGrid>
       <BackButton onClick={onPrev}>{t.backButton}</BackButton>
+      <CompletionModal isOpen={isModalOpenLocal} onRequestClose={handleCloseModal} theme={theme} locale={locale} />
     </Container>
   );
 }

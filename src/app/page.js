@@ -338,7 +338,7 @@ function ReservationProcess() {
       case "shampoo":
         return <ShampooSelect onNext={() => setStep("product")} onPrev={() => setStep("name")} onReset={handleReset} locale={locale} theme={isDarkMode ? darkTheme : lightTheme} />;
       case "product":
-        return <ProductSelect onNext={() => setStep("styling")} onPrev={() => setStep("shampoo")} locale={locale} />;
+        return <ProductSelect onNext={() => setStep("styling")} onPrev={() => setStep("shampoo")} onReset={handleReset} locale={locale} theme={isDarkMode ? darkTheme : lightTheme} />;
       case "styling":
         return (
           <StylingSelect

@@ -65,7 +65,8 @@ const CloseButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #ffee58;
+    background-color: #222;
+    color: #fff;
   }
 `;
 
